@@ -11,19 +11,19 @@ factory(root.angular);
  * AngularJS Google Maps Ver. 1.18.4
  *
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2014, 2015, 1016 Allen Kim
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so,
  * subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -744,7 +744,7 @@ angular.module('ngMap', []);
     request.travelMode = request.travelMode || 'DRIVING';
     var validKeys = [
       'origin', 'destination', 'travelMode', 'transitOptions', 'unitSystem',
-      'durationInTraffic', 'waypoints', 'optimizeWaypoints', 
+      'durationInTraffic', 'waypoints', 'optimizeWaypoints',
       'provideRouteAlternatives', 'avoidHighways', 'avoidTolls', 'region'
     ];
     for(var key in request){
@@ -1315,7 +1315,7 @@ angular.module('ngMap', []);
  *
  * @attr {Url} url url of the kml layer
  * @attr {KmlLayerOptions} KmlLayerOptions
- *   (https://developers.google.com/maps/documentation/javascript/reference#KmlLayerOptions) 
+ *   (https://developers.google.com/maps/documentation/javascript/reference#KmlLayerOptions)
  * @attr {String} &lt;KmlLayerEvent> Any KmlLayer events,
  *   https://developers.google.com/maps/documentation/javascript/reference
  * @example
@@ -1536,7 +1536,7 @@ angular.module('ngMap', []);
 /**
  * @ngdoc directive
  * @name map-type
- * @param Attr2MapOptions {service} 
+ * @param Attr2MapOptions {service}
  *   convert html attribute to Google map api options
  * @description
  *   Requires:  map directive
@@ -1934,6 +1934,15 @@ angular.module('ngMap', []);
         }
       });
 
+      attrs.$observe('location', function(val) {
+        if (val) {
+          var location = JSON.parse(val);
+          var geolocation = {lat: location.latitude,lng: location.longitude};
+          var circle = new google.maps.Circle({center: geolocation,radius: 2000});
+          autocomplete.setBounds(circle.getBounds());
+        }
+      });
+
       attrs.$observe('types', function(val) {
         if (val) {
           var optionValue = parser.toOptionValue(val, {key: 'types'});
@@ -2052,7 +2061,7 @@ angular.module('ngMap', []);
       case "circle":
         if (!(options.center instanceof google.maps.LatLng)) {
           options.center = new google.maps.LatLng(0,0);
-        } 
+        }
         shape = new google.maps.Circle(options);
         break;
       case "polygon":
@@ -2462,10 +2471,10 @@ angular.module('ngMap', []);
       }
       return JSON.parse(jsonizeFilter(input));
     };
-    
+
     var getLatLng = function(input) {
       var output = input;
-      if (input[0].constructor == Array) { 
+      if (input[0].constructor == Array) {
         if ((input[0][0].constructor == Array && input[0][0].length == 2) || input[0][0].constructor == Object) {
             var preoutput;
             var outputArray = [];
@@ -2942,7 +2951,7 @@ angular.module('ngMap', []);
    * @memberof NavigatorGeolocation
    * @param {Object} geoLocationOptions the navigator geolocations options.
    *  i.e. { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }.
-   *  If none specified, { timeout: 5000 }. 
+   *  If none specified, { timeout: 5000 }.
    *  If timeout not specified, timeout: 5000 added
    * @param {function} success success callback function
    * @param {function} failure failure callback function
@@ -3074,13 +3083,13 @@ angular.module('ngMap', []);
    * @memberof NgMapPool
    * @function returnMapInstance
    * @param {Map} an instance of google.maps.Map
-   * @desc sets the flag inUse of the given map instance to false, so that it 
+   * @desc sets the flag inUse of the given map instance to false, so that it
    * can be reused later
    */
   var returnMapInstance = function(map) {
     map.inUse = false;
   };
-  
+
   /**
    * @memberof NgMapPool
    * @function resetMapInstances
@@ -3092,7 +3101,7 @@ angular.module('ngMap', []);
     }
     mapInstances = [];
   };
-  
+
   /**
    * @memberof NgMapPool
    * @function deleteMapInstance
